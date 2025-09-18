@@ -2,7 +2,7 @@
 import shp from '../lib/index.js';
 import { should as shouldRaw, use } from 'chai';
 
-import { chaiAsPromised } from 'chai-promised';
+import chaiAsPromised from 'chai-as-promised';
 const should = shouldRaw();
 use(chaiAsPromised);
 const get = url => fetch(url).then(resp => resp.arrayBuffer())
@@ -396,6 +396,13 @@ describe('Shp', function () {
         thing.should.have.property('type', 'FeatureCollection');
         return thing.features;
       }).should.eventually.have.length(203);
+    });
+    it('should handle multi polygon shapes', function () {
+      return shp('http://localhost:3000/test/data/multi-poly-shape.zip').then(thing => {
+        thing.should.contain.keys('type', 'features');
+        thing.should.have.property('type', 'FeatureCollection');
+        return thing.features[0].geometry.coordinates;
+      }).should.eventually.have.length(2);
     });
   });
 });
