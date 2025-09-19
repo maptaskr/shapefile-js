@@ -1,7 +1,8 @@
 {
-  "name": "shpjs",
-  "version": "6.1.0",
-  "description": "Load shapefiles in pure JavaScript",
+  "name": "@maptaskr/shpjs",
+  "version": "6.1.1",
+  "types": "types/index.d.ts",
+  "description": "A fork of shpjs - Modified to support nested polygon rings",
   "main": "lib/index.js",
   "exports": {
     "import": "./lib/index.js",
@@ -10,14 +11,14 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git://github.com/calvinmetcalf/shapefile-js.git"
+    "url": "git://github.com/maptaskr/shapefile-js.git"
   },
   "scripts": {
     "test": "mocha --require test/fixtures.js ./test/test.js",
     "build": "rollup -c",
     "test-browser": "SERVING=true node test/server.js"
   },
-  "author": "Calvin Metcalf",
+  "author": "Stephen Dcruz <steve@maptaskr.com>",
   "license": "MIT",
   "readmeFilename": "README.md",
   "devDependencies": {
