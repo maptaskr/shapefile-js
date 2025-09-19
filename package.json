@@ -1,6 +1,6 @@
 {
   "name": "@maptaskr/shpjs",
-  "version": "6.1.1",
+  "version": "6.1.2",
   "types": "types/index.d.ts",
   "description": "A fork of shpjs - Modified to support nested polygon rings",
   "main": "lib/index.js",
