@@ -397,8 +397,15 @@ describe('Shp', function () {
         return thing.features;
       }).should.eventually.have.length(203);
     });
-    it('should handle multi polygon shapes', function () {
+    it('should handle weirdly wound polygon shapes', function () {
       return shp('http://localhost:3000/test/data/multi-poly-shape.zip').then(thing => {
+        thing.should.contain.keys('type', 'features');
+        thing.should.have.property('type', 'FeatureCollection');
+        return thing.features[0].geometry.coordinates;
+      }).should.eventually.have.length(2);
+    });
+    it('should handle nested multi polygon shapes', function () {
+      return shp('http://localhost:3000/test/data/winding-test.zip').then(thing => {
         thing.should.contain.keys('type', 'features');
         thing.should.have.property('type', 'FeatureCollection');
         return thing.features[0].geometry.coordinates;
