@@ -405,10 +405,10 @@ describe('Shp', function () {
       }).should.eventually.have.length(2);
     });
     it('should handle nested multi polygon shapes', function () {
-      return shp('http://localhost:3000/test/data/winding-test.zip').then(thing => {
+      return shp('http://localhost:3000/test/data/layer-cake.zip').then(thing => {
         thing.should.contain.keys('type', 'features');
         thing.should.have.property('type', 'FeatureCollection');
-        return thing.features[0].geometry.coordinates;
+        return thing.features[0].geometry.coordinates[0];
       }).should.eventually.have.length(2);
     });
   });
