@@ -1,7 +1,8 @@
 
 import shp from '../lib/index.js';
 import { should as shouldRaw, use } from 'chai';
-
+import { ParseShp } from '../lib/parseShp.js';
+import badWinding from './data/bad-winding.json'  with { type: 'json' };
 import chaiAsPromised from 'chai-as-promised';
 const should = shouldRaw();
 use(chaiAsPromised);
@@ -397,17 +398,25 @@ describe('Shp', function () {
         return thing.features;
       }).should.eventually.have.length(203);
     });
-    it('should handle weirdly wound polygon shapes', function () {
+    it('should handle freestanding holes', function () {
       return shp('http://localhost:3000/test/data/multi-poly-shape.zip').then(thing => {
         thing.should.contain.keys('type', 'features');
         thing.should.have.property('type', 'FeatureCollection');
         return thing.features[0].geometry.coordinates;
       }).should.eventually.have.length(2);
     });
+    it('should handle freestanding holes that also have holes', function () {
+      const polyFuncs = ParseShp.prototype.polyFuncs;
+      const out = polyFuncs(badWinding);
+      // console.log(JSON.stringify(out));
+      out.type.should.equal('Polygon')
+      out.coordinates.should.have.length(2);
+    });
     it('should handle nested multi polygon shapes', function () {
       return shp('http://localhost:3000/test/data/layer-cake.zip').then(thing => {
         thing.should.contain.keys('type', 'features');
         thing.should.have.property('type', 'FeatureCollection');
+        // console.log(JSON.stringify(thing));
         return thing.features[0].geometry.coordinates[0];
       }).should.eventually.have.length(2);
     });
