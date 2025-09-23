@@ -408,7 +408,6 @@ describe('Shp', function () {
     it('should handle freestanding holes that also have holes', function () {
       const polyFuncs = ParseShp.prototype.polyFuncs;
       const out = polyFuncs(badWinding);
-      // console.log(JSON.stringify(out));
       out.type.should.equal('Polygon')
       out.coordinates.should.have.length(2);
     });
@@ -416,7 +415,6 @@ describe('Shp', function () {
       return shp('http://localhost:3000/test/data/layer-cake.zip').then(thing => {
         thing.should.contain.keys('type', 'features');
         thing.should.have.property('type', 'FeatureCollection');
-        // console.log(JSON.stringify(thing));
         return thing.features[0].geometry.coordinates[0];
       }).should.eventually.have.length(2);
     });
