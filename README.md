@@ -2,96 +2,13 @@
 
 Pure JavaScript library for parsing Shapefiles, returns Geojson projected into WGS84 lat lons.
 
-## Usage
+See original package here:
+https://github.com/calvinmetcalf/shapefile-js
 
-For use in node, rollup, webpack and where ever ESM modules are used we have a lovely package you can install via npm or yarn or whatever.
+This is a fork from the PR branch:
+https://github.com/calvinmetcalf/shapefile-js/pull/225
 
-    npm install shpjs --save
-
-If you need a stand alone file to include in your webpage the old fashioned way then you can grab the built version that's either included in the repo or you can use unpkg.
-
-    https://unpkg.com/shpjs@latest/dist/shp.js
-
-or
-
-	https://unpkg.com/shpjs@latest/dist/shp.min.js
-
-
-When using this library in some sort of bundler for the browser, no polyfills for node apis are required, the only thing needed is some sort of dependency resolver plugin like [rollup node-resolve](https://www.npmjs.com/package/@rollup/plugin-node-resolve) if your bundler doesn't have it, you are almost certainly already using one to get this library anyway.
-
-Addtionally you can import it directly into an esm based web script with 
-
-```js
-import shp from 'https://unpkg.com/shpjs@latest/dist/shp.esm.js'
-```
-
-## API
-
-There are 3 ways to use it:
-
-1\. you can pass it a url to a shapefile, either to the shapefile itself (with or without the .shp suffix)
-
-```javascript
-	import shp from 'shpjs';
-	//for the shapefiles in the folder called 'files' with the name pandr.shp
-	const geojson = await shp("files/pandr.shp");
-```
-
-or you can pass it a url to a a .zip file which contains the shapefile
-
-```javascript
-	//for the shapefiles in the files folder called pandr.shp
-	const geojson = await shp("files/pandr.zip");
-```
-
-2\. you can pass in in a binary buffer (ArrayBuffer, TypedArray, DataView, Node Buffer) containing a zip file containing at least one shapefile like from a file in node:
-
-```javascript
-// in node
-const data = await fs.readFile('./path/to/shp.zip');
-const geojson = await shp(data);
-```
-or the [File API](https://developer.mozilla.org/en-US/docs/Web/API/File) in the browser
-
-```javascript
-// in browser from some sort of file upload
-const data = await file.arrayBuffer()
-const geojson = await shp(data);
-```
-
-3\. You can pass in an object with `shp`, `dbf`, `prj`, and `cpg` properties.
-
-```javascript
-const object = {}
-object.shp = await fs.readFile('./path/to/file.shp');
-// dbf is optional, but needed if you want attributes
-object.dbf = await fs.readFile('./path/to/file.dbf');
-// prj is optional, but needed if your file is in some projection you don't want it in
-object.prj = await fs.readFile('./path/to/file.prj');
-// cpg is optional but needed if your dbf is in some weird (non utf8) encoding.
-object.cpg = await fs.readFile('./path/to/file.cpg');
-
-const geojson = await shp(object)
-```
-
-## on zipfiles
-
-If there is only one shp in the zipefile it returns geojson, if there are multiple then it will be an array.  All of the geojson objects have an extra key `fileName` the value of which is the
-name of the shapefile minus the extension (I.E. the part of the name that's the same for all of them).
-
-
-# links
-
-- [wikipedia article](https://en.wikipedia.org/wiki/Shapefile)
-- [ESRI white paper](http://www.esri.com/library/whitepapers/pdfs/shapefile.pdf)
-- [This page on Xbase](http://www.clicketyclick.dk/databases/xbase/format/dbf.html)
-
-## Demos
-
-- [Countries/zipfile](http://calvinmetcalf.github.io/shapefile-js)
-- [Google maps](http://calvinmetcalf.github.io/shapefile-js/site/map.html)
-- [Local Zipfile](http://leaflet.calvinmetcalf.com)
-- [Projected big with web workers](http://calvinmetcalf.github.io/shapefile-js/site/proj.html)
+with changes to help fix incorrectly wound polygons.
 
 ## About
 
